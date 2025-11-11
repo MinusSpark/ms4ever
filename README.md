@@ -1,1 +1,1 @@
-Esta es la págin para mi amor
+Esta es la página para mi amor
