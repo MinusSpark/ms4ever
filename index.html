@@ -56,7 +56,7 @@
         function validarAcceso() {
             var contraseña = document.getElementById("passwordInput").value.toLowerCase();
 
-            if (contraseña === "copernico" || contraseña === "Copernico") {
+            if (contraseña === "copernico") {
                 window.location.href = "inicioPagina.html"; // Redirige a la página deseada en GitHub Pages
             } else {
                 document.getElementById("mensajeError").style.display = "block"; // Muestra el mensaje de error
