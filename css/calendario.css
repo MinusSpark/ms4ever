@@ -1,0 +1,126 @@
+
+:root{
+  --pink: #d63384;
+  --card: rgba(255,255,255,0.14);
+  --border: rgba(255,255,255,0.25);
+  --text: #ffffff;
+}
+
+.app-body{
+  background: var(--pink);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app-title{
+  color: white;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.card-soft{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.list-group-item{
+  background: transparent !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: white !important;
+}
+
+.btn-light{
+  background: white;
+  color: #111;
+  border: none;
+}
+
+.btn-outline-light{
+  border-color: rgba(255,255,255,0.55);
+  color: white;
+}
+
+.badge{
+  font-size: 0.85rem;
+}
+
+/* CALENDARIO */
+.calendar-weekdays{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-weight: 700;
+  opacity: .9;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.calendar-grid{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day{
+  position: relative;
+  min-height: 52px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: start;
+  justify-content: end;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: transform .08s ease, background .15s ease;
+  user-select: none;
+}
+
+.day:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.08);
+}
+
+.day.muted{
+  opacity: 0.35;
+}
+
+.day.selected{
+  outline: 2px solid rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.10);
+}
+
+.day.today{
+  border-color: rgba(255,255,255,0.9);
+}
+
+.dot{
+  position: absolute;
+  left: 8px;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #00ffb3;
+  box-shadow: 0 0 8px rgba(0,255,179,0.6);
+}
+
+/* mini botones dentro de cada item */
+.task-actions button{
+  border: none;
+  background: transparent;
+  color: white;
+  opacity: 0.9;
+}
+
+.task-actions button:hover{
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.small-date{
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
