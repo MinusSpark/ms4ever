@@ -1,39 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
 
     <title>Mi Sofieti💝</title>
+
+    <style>
+      body {
+        background-color: #d63384;
+        margin: 0;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      /* Contenedor de los corazones flotantes de fondo */
+      .heart-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1; /* Se queda siempre por detrás del contenido */
+        pointer-events: none;
+      }
+
+      .floating-heart {
+        position: absolute;
+        bottom: -50px;
+        color: rgba(255, 182, 193, 0.6); /* Rosita sutil y transparente */
+        font-size: 24px;
+        animation: floatUp linear infinite;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Estilo hover opcional para las imágenes del menú */
+      .menu-img {
+        transition: transform 0.2s ease;
+      }
+      .menu-img:hover {
+        transform: scale(1.05);
+      }
+    </style>
   </head>
 
-  <body style="background-color: #d63384;">
-  
-    <div class="container-fluid">
-        <h4 class="" style="color:white; text-align: center;margin:0.5em;">Tienes que tocar cualquier imagen mi amor!</h4>
+  <body>
+    <!-- Fondo animado de corazones -->
+    <div class="heart-background" id="heartBackground"></div>
+
+    <div class="container-fluid pt-3">
+        <h4 class="text-white text-center fw-bold mb-4" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+          Tienes que tocar cualquier imagen mi amor! 💖
+        </h4>
     </div>
- 
-<div class="container-fluid">
-  <div class="d-flex flex-column align-items-center">
-    <a href="flores.html" style="display: flex; justify-content: center"><img src="../Fotos/floress.png" alt="" class="w-75" /></a>
-    <a href="carta.html" style="display: flex; justify-content: center; "><img src="../Fotos/cartaFoto.png" alt="" class="w-75 " /></a>
-    <a href="paginaPrincipal.html" style="display: flex; justify-content: center; "><img src="../Fotos/ventana.png" alt="" class="w-75 " /></a>
-    <a href="login.html" style="display: flex; justify-content: center; "><img src="../Fotos/image-removebg-preview (4).png" alt="" class="w-75 " /></a>
-    <a href="lasReales.html" style="display: flex; justify-content: center; "><img src="../Fotos/fotoTarta.png" alt="" class="w-75 " /></a>
 
-  </div>
-</div>
+    <div class="container-fluid pb-5">
+      <div class="d-flex flex-column align-items-center gap-3">
+        <a href="flores.html" class="d-flex justify-content-center w-100"><img src="../Fotos/floress.png" alt="Flores" class="w-75 menu-img" /></a>
+        <a href="carta.html" class="d-flex justify-content-center w-100"><img src="../Fotos/cartaFoto.png" alt="Carta" class="w-75 menu-img" /></a>
+        <a href="paginaPrincipal.html" class="d-flex justify-content-center w-100"><img src="../Fotos/ventana.png" alt="Ventana" class="w-75 menu-img" /></a>
+        <a href="login.html" class="d-flex justify-content-center w-100"><img src="../Fotos/image-removebg-preview (4).png" alt="Login" class="w-75 menu-img" /></a>
+        <a href="lasReales.html" class="d-flex justify-content-center w-100"><img src="../Fotos/fotoTarta.png" alt="Tarta" class="w-75 menu-img" /></a>
+        <a href="primerAniversario.html" class="d-flex justify-content-center w-100 my-2"><img src="../Fotos/Aniversario/iconoRecortado-Sin fondo.png" alt="Aniversario" class="w-75 menu-img" style="border-radius: 5em;" /></a>
+      </div>
+    </div>
 
+    <!-- Script para generar los corazones flotantes automáticamente -->
+    <script>
+      function createHeart() {
+        const container = document.getElementById('heartBackground');
+        if (!container) return;
 
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.innerHTML = '💛';
+        
+        // Posición horizontal aleatoria
+        heart.style.left = Math.random() * 100 + 'vw';
+        
+        // Tamaño aleatorio para dar profundidad
+        const size = Math.random() * 20 + 15; // Entre 15px y 35px
+        heart.style.fontSize = size + 'px';
+        
+        // Duración de animación aleatoria (entre 4 y 8 segundos para que vayan fluidos)
+        const duration = Math.random() * 4 + 4;
+        heart.style.animationDuration = duration + 's';
 
+        container.appendChild(heart);
 
+        // Eliminar el corazón del DOM cuando termine la animación para no sobrecargar la memoria
+        setTimeout(() => {
+          heart.remove();
+        }, duration * 1000);
+      }
+
+      // Generar un corazón nuevo cada 350 milisegundos
+      setInterval(createHeart, 350);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

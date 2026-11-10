@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un año juntos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Mono:wght@400;500&family=Figtree:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/billete.css">
+</head>
+<body>
+
+<section class="ticket" aria-label="Billete de aniversario">
+  <div class="ticket-main">
+    <div class="ticket-head">
+      <span class="label">Billete de ida</span>
+      <span class="label">Año uno · completado</span>
+    </div>
+
+    <h1>Un año <em>juntos.</em></h1>
+
+    <div class="route">
+      <div class="city">12 nov 2025<small class="label">Primer día</small></div>
+      <div class="line" aria-hidden="true"></div>
+      <div class="city to">12 nov 2026<small class="label">Año uno</small></div>
+    </div>
+
+    <div class="fields">
+      <div><span class="label">Pasajeros</span><span>Sofieti y Martinito</span></div>
+      <div><span class="label">Duración</span><span>365 días</span></div>
+      <div><span class="label">Asiento</span><span>Uno al lado del otro</span></div>
+    </div>
+  </div>
+
+  <div class="stub">
+    <div>
+      <span class="label">Hoy llevamos</span>
+      <div class="big" id="days">0</div>
+      <span class="label">días</span>
+    </div>
+    <div class="barcode" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="next" aria-labelledby="proximo" style="background-color: #E8452A; color: white; text-align: center; padding: 2rem;">
+  <span class="label" id="proximo" style="color: white;">Próximo destino · 12 nov 2026</span>
+
+  <div class="next-grid" role="timer" aria-label="Cuenta atrás al aniversario">
+    <div><span class="num" id="x-d" style="color:green">0</span><span class="label">días</span></div>
+    <div><span class="num" id="x-h" style="color:white">0</span><span class="label">horas</span></div>
+    <div><span class="num" id="x-m" style="color:white">0</span><span class="label">minutos</span></div>
+    <div><span class="num" id="x-s" style="color:white">0</span><span class="label">segundos</span></div>
+  </div>
+
+  <p style="color:white">Preparate que será increíble!</p>
+</section>
+
+<script>
+  // Fecha de inicio real de la relación para el billete (12 de noviembre de 2025)
+  var REAL_START = new Date(2025, 10, 12, 0, 0, 0).getTime();
+
+  // Fechas para la cuenta atrás personalizada
+  var START = new Date(2026, 10, 10, 0, 0, 0).getTime();
+  var NEXT  = new Date(2026, 10, 12, 0, 0, 0).getTime();
+
+  var days = document.getElementById('days');
+  var xd = document.getElementById('x-d');
+  var xh = document.getElementById('x-h');
+  var xm = document.getElementById('x-m');
+  var xs = document.getElementById('x-s');
+
+  function tick() {
+    var now = Date.now();
+
+    // Días juntos en el billete desde el 12 nov 2025 hasta hoy
+    days.textContent = Math.max(0, Math.floor((now - REAL_START) / 86400000));
+
+    // Cuenta atrás para el aniversario (del 10 al 12 de noviembre)
+    var s = Math.max(0, Math.floor((NEXT - now) / 1000));
+    xd.textContent = Math.floor(s / 86400);
+    xh.textContent = Math.floor((s % 86400) / 3600);
+    xm.textContent = Math.floor((s % 3600) / 60);
+    xs.textContent = s % 60;
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+  <div class="container-fluid text-center mt-4">
+    <h2>Martin Ingeniero está ingenierando 😎</h2>
+    <img src="../Fotos/Aniversario/Martin Ingeniero.png" width="75%"/>
+
+  </div>
+
+
+
+
+</body>
+</html>

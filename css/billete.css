@@ -1,0 +1,206 @@
+:root {
+  --bg: #E8EFEA;
+  --surface: #F9FBF8;
+  --fg: #12201C;
+  --muted: #52665F;
+  --accent: #E8452A;
+  --line: #C3D3CA;
+  --on-accent: #FFFFFF;
+  --font-display: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  padding: clamp(1.75rem, 6vw, 4.5rem) 16px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Billete */
+.ticket {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 13rem;
+  background: var(--surface);
+  border-radius: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.ticket-main {
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  display: grid;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+.ticket-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.ticket-head .label:first-child { color: var(--accent); }
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 9vw, 5.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--accent); }
+
+/* Ruta con flecha */
+.route {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+}
+.route .city {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.route .city small { display: block; margin-top: 0.4rem; }
+.route .to { text-align: right; }
+.route .line {
+  width: clamp(2.5rem, 9vw, 6rem);
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--fg) 0 6px, transparent 6px 12px);
+  position: relative;
+}
+.route .line::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: -4px;
+  border-left: 9px solid var(--fg);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+/* Campos */
+.fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  border-top: 1px dashed var(--line);
+  padding-top: 1.25rem;
+}
+.fields div span:last-child {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-top: 0.2rem;
+}
+
+/* Talón */
+.stub {
+  border-left: 2px dashed var(--line);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: grid;
+  align-content: space-between;
+  gap: 1.5rem;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.stub .label { color: inherit; opacity: 0.8; }
+.stub .big {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 3.25rem;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.barcode {
+  height: 3.25rem;
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 2px, transparent 2px 4px,
+    currentColor 4px 5px, transparent 5px 9px,
+    currentColor 9px 12px, transparent 12px 14px
+  );
+  opacity: 0.9;
+}
+
+/* Muescas del corte (círculos del color del fondo) */
+.ticket::before,
+.ticket::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--bg);
+  right: calc(13rem - 0.75rem);
+}
+.ticket::before { top: -0.75rem; }
+.ticket::after { bottom: -0.75rem; }
+
+/* Móvil: el talón pasa debajo y las muescas a los lados */
+@media (max-width: 44rem) {
+  .ticket { grid-template-columns: minmax(0, 1fr); }
+  .stub {
+    border-left: 0;
+    border-top: 2px dashed var(--line);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+  }
+  .ticket::before, .ticket::after { right: auto; top: auto; bottom: auto; }
+  .ticket::before { left: -0.75rem; }
+  .ticket::after { right: -0.75rem; left: auto; }
+  .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.next {
+  display: grid;
+  gap: 1.25rem;
+  border-top: 2px solid var(--fg);
+  padding-top: 1.5rem;
+  max-width: 62rem;
+  margin: clamp(2.5rem, 7vw, 4.5rem) auto 0;
+}
+
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 40rem;
+}
+
+.next-grid .num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 9vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.next-grid > div:first-child .num { color: var(--accent); }
+.next-grid .label { display: block; margin-top: 0.4rem; }
+
+.next p { margin: 0; color: var(--muted); max-width: 30rem; }
+
+}
