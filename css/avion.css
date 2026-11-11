@@ -1,0 +1,199 @@
+ @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600&display=swap');
+
+        :root {
+            /* Variables de trayectoria por defecto (Móvil) */
+            --plane-scale: 0.55;
+            --start-x: -280px;
+            --start-y: -140px;
+            --touchdown-x: -20px;
+            --touchdown-y: 12px;
+            --final-x: 50px;
+            --final-y: 20px;
+        }
+
+        @media (min-width: 640px) {
+            :root {
+                /* Trayectoria para Tablet / Escritorio */
+                --plane-scale: 0.85;
+                --start-x: -380px;
+                --start-y: -160px;
+                --touchdown-x: 40px;
+                --touchdown-y: 12px;
+                --final-x: 220px;
+                --final-y: 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                /* Trayectoria para Pantallas Grandes */
+                --plane-scale: 1;
+                --start-x: -450px;
+                --start-y: -180px;
+                --touchdown-x: 120px;
+                --touchdown-y: 12px;
+                --final-x: 400px;
+                --final-y: 20px;
+            }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color:white;
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+        }
+
+        .mono-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Container Card Styling */
+        .card-container {
+            background-color: #0b131d;
+            border: 1px solid #1a2736;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* SVG Background and Canvas Elements */
+        .sky-canvas {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #091018 0%, #0d1724 100%);
+        }
+
+        @media (min-width: 640px) {
+            .sky-canvas {
+                height: 380px;
+            }
+        }
+
+        /* Floating Cloud Animations */
+        @keyframes floatCloudLeft {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(25px); }
+        }
+        @keyframes floatCloudRight {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(-20px); }
+        }
+
+        .cloud-1 { animation: floatCloudLeft 16s ease-in-out infinite; }
+        .cloud-2 { animation: floatCloudRight 20s ease-in-out infinite; }
+
+        /* Sun Glow Pulse */
+        @keyframes sunPulse {
+            0%, 100% { opacity: 0.85; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+        .sun-glow {
+            transform-origin: center;
+            animation: sunPulse 6s ease-in-out infinite;
+        }
+
+        /* Runway Lights Pulse */
+        @keyframes lightPulse {
+            0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 3px #fbbf24); }
+            50% { opacity: 1; filter: drop-shadow(0 0 8px #f59e0b); }
+        }
+        .runway-light {
+            animation: lightPulse 2.5s ease-in-out infinite;
+        }
+
+        /* Runway Dashed Line Parallax Move during landing */
+        @keyframes moveDashes {
+            from { background-position-x: 0px; }
+            to { background-position-x: -300px; }
+        }
+        .runway-dashes {
+            background-image: linear-gradient(to right, #1d2c3a 50%, transparent 50%);
+            background-size: 40px 3px;
+            background-repeat: repeat-x;
+        }
+        .runway-dashes.animating {
+            animation: moveDashes 2.5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+        }
+
+        /* Responsive Airplane Keyframe Landing Animation */
+        @keyframes landAirplane {
+            0% {
+                transform: translate(var(--start-x), var(--start-y)) scale(var(--plane-scale)) rotate(-6deg);
+            }
+            45% {
+                transform: translate(var(--touchdown-x), var(--touchdown-y)) scale(var(--plane-scale)) rotate(-2deg);
+            }
+            52% {
+                transform: translate(calc(var(--touchdown-x) + 30px), calc(var(--touchdown-y) + 8px)) scale(var(--plane-scale)) rotate(0deg);
+            }
+            58% {
+                transform: translate(calc(var(--touchdown-x) + 60px), calc(var(--touchdown-y) + 6px)) scale(var(--plane-scale)) rotate(0.5deg);
+            }
+            65% {
+                transform: translate(calc(var(--touchdown-x) + 90px), calc(var(--touchdown-y) + 8px)) scale(var(--plane-scale)) rotate(0deg);
+            }
+            100% {
+                transform: translate(var(--final-x), var(--final-y)) scale(var(--plane-scale)) rotate(0deg);
+            }
+        }
+
+        .airplane-wrapper {
+            position: absolute;
+            top: 135px;
+            left: 15%;
+            transform-origin: center bottom;
+            will-change: transform;
+            width: 280px;
+        }
+
+        @media (min-width: 640px) {
+            .airplane-wrapper {
+                top: 195px;
+                left: 20%;
+            }
+        }
+
+        .airplane-wrapper.landing {
+            animation: landAirplane 5.5s cubic-bezier(0.12, 0.8, 0.25, 1) forwards;
+        }
+
+        /* Wheels rotation effect */
+        @keyframes spinWheel {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(1440deg); }
+        }
+        .wheel-spin.active {
+            animation: spinWheel 4s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+            transform-origin: center;
+        }
+
+        /* Repeat Landing Link Hover Effect */
+        .landing-btn {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .landing-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #38bdf8;
+            transition: width 0.2s ease;
+        }
+        .landing-btn:hover::after {
+            background-color: #7dd3fc;
+            box-shadow: 0 0 8px #0284c7;
+        }

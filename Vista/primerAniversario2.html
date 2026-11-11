@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pista 12 — Nuestro Primer Año</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/avion.css">
+
+    <style>
+        /* Estilos para el fondo dinámico de corazones */
+        #heartBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            user-select: none;
+            opacity: 0.8;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Tipografía mono para toques de bitácora */
+        .mono-font {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        /* Ocultar barra de scroll horizontal en el carrusel */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen pt-16 pb-12 px-4 flex flex-col items-center justify-start relative overflow-x-hidden selection:bg-[#d63384] selection:text-white">
+
+    <!-- Contenedor para el fondo de corazones -->
+    <div id="heartBackground"></div>
+
+    <!-- Cabecera superior fija -->
+    <header class="fixed top-0 left-0 w-full bg-[#d63384] text-white text-center py-3 shadow-md z-50">
+        <h1 class="text-sm sm:text-base font-bold tracking-wide flex items-center justify-center gap-2 m-0 uppercase">
+            BIENVENIDOS A NUESTRO ANIVERSARIO ❤️
+        </h1>
+    </header>
+
+    <!-- Contenedor Principal (Optimizado para móvil) -->
+    <main class="w-full max-w-xl mx-auto flex flex-col gap-6 z-10">
+
+        <!-- Escena del Avión -->
+        <div class="card-container w-full bg-[#0a111a] rounded-2xl overflow-hidden shadow-xl border border-gray-800">
+            <div class="sky-canvas relative w-full overflow-hidden">
+                <svg width="100%" height="100%" viewBox="0 0 900 380" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Sun / Red Glow Circle -->
+                    <g class="sun-glow">
+                        <circle cx="730" cy="120" r="75" fill="#e11d48" opacity="0.08" />
+                        <circle cx="730" cy="120" r="60" fill="#e11d48" opacity="0.18" />
+                        <circle cx="730" cy="120" r="48" fill="#ca8a04" opacity="0.1" />
+                        <circle cx="730" cy="120" r="38" fill="#ea3829" />
+                    </g>
+
+                    <!-- Background Clouds -->
+                    <g class="cloud-1" opacity="0.4">
+                        <path d="M 120 90 C 130 70, 170 70, 190 90 C 210 90, 230 105, 215 120 C 200 135, 130 135, 110 120 C 95 105, 105 90, 120 90 Z" fill="#060c14" />
+                    </g>
+                    <g class="cloud-2" opacity="0.35">
+                        <path d="M 450 65 C 465 50, 500 50, 515 65 C 535 65, 550 80, 535 95 C 515 108, 455 108, 435 95 C 420 80, 435 65, 450 65 Z" fill="#060c14" />
+                    </g>
+
+                    <!-- Airport Silhouettes -->
+                    <g opacity="0.5">
+                        <path d="M 105 245 L 115 160 L 105 155 L 105 145 L 135 145 L 135 155 L 125 160 L 135 245 Z" fill="#0d1824" />
+                        <polygon points="108,145 116,130 124,130 132,145" fill="#0d1824" />
+                        <rect x="150" y="210" width="180" height="35" fill="#0e1b29" rx="2" />
+                    </g>
+
+                    <!-- Runway Base -->
+                    <rect x="0" y="243" width="900" height="42" fill="#0a111a" />
+                    <line x1="0" y1="243" x2="900" y2="243" stroke="#13202e" stroke-width="2" />
+
+                    <!-- Runway Lights -->
+                    <g>
+                        <line x1="0" y1="285" x2="900" y2="285" stroke="#081018" stroke-width="3" />
+                        <circle class="runway-light" cx="25" cy="292" r="3.5" fill="#fbbf24" />
+                        <circle class="runway-light" cx="175" cy="292" r="3.5" fill="#fbbf24" />
+                        <circle class="runway-light" cx="325" cy="292" r="3.5" fill="#fbbf24" />
+                        <circle class="runway-light" cx="475" cy="292" r="3.5" fill="#fbbf24" />
+                        <circle class="runway-light" cx="625" cy="292" r="3.5" fill="#fbbf24" />
+                        <circle class="runway-light" cx="775" cy="292" r="3.5" fill="#fbbf24" />
+                    </g>
+                </svg>
+
+                <div id="runwayDashes" class="runway-dashes absolute left-0 top-[182px] sm:top-[262px] w-full h-[3px]"></div>
+
+                <!-- Animated Airplane Container -->
+                <div id="airplane" class="airplane-wrapper landing">
+                    <svg width="100%" height="auto" viewBox="0 0 280 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="plane-body">
+                            <path d="M 28 42 L 72 10 L 88 10 L 68 45 Z" fill="#eb3b2a" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" />
+                            <path d="M 18 57 L 0 65 L 12 65 L 26 59 Z" fill="#1e242b" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" />
+                            <path d="M 32 45 C 100 44, 200 42, 230 46 C 255 49, 275 58, 275 62 C 275 66, 250 72, 210 72 L 45 70 C 32 68, 28 58, 32 45 Z" fill="#1b222a" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" />
+                            <path d="M 33 58 Q 150 58 271 61 C 265 64 250 67 220 67 L 45 66 C 36 65 33 62 33 58 Z" fill="#eb3b2a" />
+                            <g fill="#ffffff">
+                                <circle cx="85" cy="52" r="1.8" />
+                                <circle cx="109" cy="52" r="1.8" />
+                                <circle cx="133" cy="52" r="1.8" />
+                                <circle cx="157" cy="52" r="1.8" />
+                                <circle cx="181" cy="52" r="1.8" />
+                                <circle cx="205" cy="52" r="1.8" />
+                            </g>
+                            <g id="rear-gear">
+                                <line x1="165" y1="74" x2="165" y2="92" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+                                <circle class="wheel-spin active" cx="165" cy="94" r="5" fill="#ffffff" stroke="#1b222a" stroke-width="1.5" />
+                            </g>
+                            <g id="front-gear">
+                                <line x1="240" y1="68" x2="240" y2="92" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+                                <circle class="wheel-spin active" cx="240" cy="94" r="5" fill="#ffffff" stroke="#1b222a" stroke-width="1.5" />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Footer Bar Inside Card -->
+            <div class="px-4 py-3 bg-[#091018] border-t border-[#13202f] flex flex-row items-center justify-between text-[11px] tracking-wider">
+                <div class="mono-font text-[#5eead4] font-semibold flex items-center space-x-2 select-none">
+                    <span>PISTA 12</span>
+                    <span class="text-gray-600">·</span>
+                    <span>AÑO UNO</span>
+                </div>
+                <div>
+                    <button id="repeatBtn" onclick="triggerLanding()" class="landing-btn mono-font text-[#e2e8f0] hover:text-white font-semibold uppercase tracking-widest focus:outline-none transition-colors">
+                        REPETIR ATERRIZAJE
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full text-center mt-3 py-3 bg-[#d63384] rounded-xl shadow-md">
+            <h3 class="text-white text-lg font-bold m-0 tracking-wide">Te presento a los pilotos de este avión </h3>
+        </div>
+
+        <!-- SECCIÓN: Sofi y Martín Chiquitos -->
+        <div class="w-full bg-white rounded-2xl p-4 shadow-sm border border-pink-100 flex flex-col items-center">
+            <div class="grid grid-cols-2 gap-3 w-full max-w-md items-center justify-center">
+                <div class="aspect-square w-full rounded-xl overflow-hidden shadow-sm">
+                    <img src="../Fotos/sofiPequeña.png" alt="Sofi Chiquita" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-square w-full rounded-xl overflow-hidden shadow-sm">
+                    <img src="../Fotos/martinChiquito.jpeg" alt="Martin Chiquito" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <h3 class="mt-4 text-base sm:text-lg font-bold text-gray-800 text-center tracking-tight">
+                Sofi Chiquita y Martin Chiquito 💝💝💝
+            </h3>
+        </div>
+
+        <!-- Banner Frase Corta -->
+        <div class="w-full text-center py-3 bg-[#d63384] rounded-xl shadow-md">
+            <h3 class="text-white text-lg font-bold m-0 tracking-wide">Juntos hemos vivido muchas aventuras inolvidables</h3>
+        </div>
+
+        <!-- SECCIÓN: Carrusel de Momentos Icónicos -->
+        <section class="flex flex-col gap-3 my-2 relative">
+            <div class="text-center">
+                <span class="mono-font text-xs uppercase tracking-widest text-[#d63384] font-bold">Bitácora de Vuelo</span>
+                <h2 class="text-2xl font-black text-gray-800 tracking-tight">Nuestras Escalas Icónicas ✈️</h2>
+                <p class="text-xs text-gray-400 mt-1">Desliza para ver nuestras paradas 👈 👉</p>
+            </div>
+
+            <!-- Contenedor del Carrusel -->
+            <div class="relative group">
+                <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar gap-4 py-2 px-1">
+                    
+                    <!-- Tarjeta 1: España Copas del Mundo -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-gray-100 rounded-xl overflow-hidden">
+                            <img src="../Fotos/Aniversario/mundial.jpeg" alt="España Campeones" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md">ESCALA 01 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Cuando España ganó la copa 🏆</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Celebración & Gritos compartidos</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Celebrar ese triunfo de Españita juntos, saltar y besarnos mientras estaban todos celebrando es de los mejores momentos de mi vida, te amo tanto mi amor!
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta 2: Primer Viaje a la Playa -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-gray-100 rounded-xl overflow-hidden">
+                            <img src="../Fotos/Aniversario/playa.jpeg" alt="Primer viaje a la playa" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md">ESCALA 02 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Primer viaje a la playa 🏖️</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Arena, sal y atardeceres</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Nuestra primera escapada juntos, con tu mamá y tu hermano amor. Desconectamos del mundo, olemos a mar y entendí que viajar contigo se convertiría en mi pasatiempo favorito para siempre.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta 3: Museo del Prado -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-gray-100 rounded-xl overflow-hidden">
+                            <img src="../Fotos/Aniversario/museo.jpeg" alt="Museo del Prado" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md">ESCALA 03 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Tarde de arte en El Prado 🎨</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Cultura & miradas cómplices</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Caminar de la mano entre tanta historia y cuadros famosos... aunque te soy sincero: la verdadera obra de arte de la tarde eras tú mi reina hermosa!.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta 4: El Planetario -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-gray-100 rounded-xl overflow-hidden">
+                            <img src="../Fotos/Aniversario/planetario.jpeg" alt="Planetario" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md">ESCALA 04 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Bajo las estrellas en el Planetario 🌌</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Constelaciones & galaxias</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Mirando al techo a oscuras descubrimos lo pequeño que es el universo en comparación con todo lo que siento por ti. 
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta 5: Toledo -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-gray-100 rounded-xl overflow-hidden">
+                            <img src="../Fotos/Aniversario/toledo.jpeg" alt="Toledo" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md">ESCALA 05 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Escapada mágica a Toledo 🏰</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Calles empedradas & miradores</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Perdernos por sus cuestas, las vistas desde el mirador al anochecer y esa sensación de que el tiempo se detiene cuando caminamos juntos.
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- Botones Flecha (Visibles/Táctiles) -->
+                <button onclick="scrollCarousel(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-gray-800 p-2 rounded-full shadow-lg hover:bg-white transition-all border border-gray-100 focus:outline-none">
+                    ◀
+                </button>
+                <button onclick="scrollCarousel(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-gray-800 p-2 rounded-full shadow-lg hover:bg-white transition-all border border-gray-100 focus:outline-none">
+                    ▶
+                </button>
+            </div>
+
+            <!-- Indicadores / Dots de posición -->
+            <div id="dotsContainer" class="flex justify-center gap-2 mt-1">
+                <span class="dot w-2.5 h-2.5 rounded-full bg-[#d63384] transition-all duration-300"></span>
+                <span class="dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+            </div>
+        </section>
+
+        <div class="w-full text-center mt-3 py-3 bg-[#d63384] rounded-xl shadow-md">
+            <h3 class="text-white text-lg font-bold m-0 tracking-wide">Momentos inolvidables ✨</h3>
+        </div>
+
+        <!-- SECCIÓN: Carrusel de Vídeos -->
+        <section class="flex flex-col gap-3 my-2 relative">
+            <div class="text-center">
+                <span class="mono-font text-xs uppercase tracking-widest text-[#d63384] font-bold">Galería Audiovisual</span>
+                <h2 class="text-2xl font-black text-gray-800 tracking-tight">Nuestros Vídeos Favoritos 🎥</h2>
+                <p class="text-xs text-gray-400 mt-1">Desliza para ver nuestros vídeos 👈 👉</p>
+            </div>
+
+            <!-- Contenedor del Carrusel de Vídeos -->
+            <div class="relative group">
+                <div id="videoCarousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar gap-4 py-2 px-1">
+                    
+                    <!-- Vídeo 1 -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="C:\Users\Martín Jaimes\Downloads\ms4ever\Fotos\Aniversario\2.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de vídeos.
+                            </video>
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md pointer-events-none">VÍDEO 01 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Toledo nuestro primer pueblo</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Instantes espontáneos</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Ver el atardecer juntos desde el mirador, y estar juntos en cada rincón de Toledo, me hizo darme cuenta de que contigo todo es más especial y memorable.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Vídeo 2 -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="C:\Users\Martín Jaimes\Downloads\ms4ever\Fotos\Aniversario\1.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de vídeos.
+                            </video>
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md pointer-events-none">VÍDEO 02 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Este video me encanta!</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">En el hotel de toledo</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Viendo nuestro outfits antes de salir a explorar Toledo caminando!
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Vídeo 3 -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="C:\Users\Martín Jaimes\Downloads\ms4ever\Fotos\Aniversario\3.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de vídeos.
+                            </video>
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md pointer-events-none">VÍDEO 03 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Nuestra primer rutita✨</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Magia pura</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                De ruta por Cercedilla disfrutando del aire libre y teniendo  miedo por nuestra vida por los toros JAJAJA, momentos especiales.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Vídeo 4 -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="C:\Users\Martín Jaimes\Downloads\ms4ever\Fotos\Aniversario\4.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de vídeos.
+                            </video>
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md pointer-events-none">VÍDEO 04 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">TU CARITA HERMOSAAAA ME DERRITE</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Amandote mi amor te amo</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                No hace falta un plan elaborado cuando la compañía es perfecta. Cualquier paseo a tu lado se convierte en una escena inolvidable.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Vídeo 5 -->
+                    <article class="snap-center shrink-0 w-full bg-white rounded-2xl p-4 shadow-md border border-pink-100 flex flex-col gap-3">
+                        <div class="relative w-full h-56 bg-black rounded-xl overflow-hidden flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover">
+                                <source src="C:\Users\Martín Jaimes\Downloads\ms4ever\Fotos\Aniversario\5.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de vídeos.
+                            </video>
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-1 rounded-md pointer-events-none">VÍDEO 05 / 05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Mi chica gamer jugando a los Sims 4</h3>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Previendo el futuro juntos</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Un clip más para recordar que juntos hacemos el mejor equipo del mundo. ¡Por muchísimos momentos más así!
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- Botones Flecha (Visibles/Táctiles para Vídeos) -->
+                <button onclick="scrollVideoCarousel(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-gray-800 p-2 rounded-full shadow-lg hover:bg-white transition-all border border-gray-100 focus:outline-none">
+                    ◀
+                </button>
+                <button onclick="scrollVideoCarousel(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-gray-800 p-2 rounded-full shadow-lg hover:bg-white transition-all border border-gray-100 focus:outline-none">
+                    ▶
+                </button>
+            </div>
+
+            <!-- Indicadores / Dots de posición para Vídeos -->
+            <div id="videoDotsContainer" class="flex justify-center gap-2 mt-1">
+                <span class="video-dot w-2.5 h-2.5 rounded-full bg-[#d63384] transition-all duration-300"></span>
+                <span class="video-dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="video-dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="video-dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+                <span class="video-dot w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></span>
+            </div>
+        </section>
+
+        <!-- CARTA PERSONALIZADA / SECCIÓN EMOCIONAL -->
+        <section class="bg-white rounded-2xl p-6 shadow-sm border border-pink-100 flex flex-col gap-4 text-center">
+            <div class="inline-block mx-auto bg-pink-100 p-3 rounded-full text-[#d63384]">
+                💌
+            </div>
+            <h2 class="text-xl font-bold text-gray-900">Gracias por este primer año</h2>
+            <div class="text-sm text-gray-600 leading-relaxed space-y-3 text-left">
+                <p>
+                    Aterrizar en la <strong>Pista 12</strong> no es solo haber cumplido meses en el calendario; es celebrar 365 días de complicidad, risas improvisadas, viajes inolvidables y momentos tranquilos donde solo con mirarnos lo entendemos todo.
+                </p>
+                <p>
+                    Ha sido un año lleno de "primeras veces" increíbles, y lo mejor de todo es saber que esto solo es el principio del viaje. Gracias por ser mi compañera de vuelo favorita.
+                </p>
+            </div>
+
+            <div class="pt-2 border-t border-gray-100 text-xs font-bold text-[#d63384] uppercase tracking-wider">
+                Te amo con todo mi corazón
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer sencillo final -->
+    <footer class="mt-8 text-center text-xs text-gray-400 font-mono">
+        Hecho con ❤️ para nuestro Aniversario
+    </footer>
+
+    <!-- Script para los corazones en segundo plano -->
+    <script>
+        function createHeart() {
+            const container = document.getElementById('heartBackground');
+            if (!container) return;
+
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '💛';
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 20 + 15;
+            heart.style.fontSize = size + 'px';
+            
+            const duration = Math.random() * 4 + 4;
+            heart.style.animationDuration = duration + 's';
+
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 350);
+    </script>
+
+    <!-- Script de control de la animación del avión -->
+    <script>
+        function triggerLanding() {
+            const plane = document.getElementById('airplane');
+            const dashes = document.getElementById('runwayDashes');
+            const wheels = document.querySelectorAll('.wheel-spin');
+            const btn = document.getElementById('repeatBtn');
+
+            btn.style.pointerEvents = 'none';
+
+            plane.classList.remove('landing');
+            dashes.classList.remove('animating');
+            wheels.forEach(w => w.classList.remove('active'));
+
+            void plane.offsetWidth;
+
+            plane.classList.add('landing');
+            dashes.classList.add('animating');
+            wheels.forEach(w => w.classList.add('active'));
+
+            setTimeout(() => {
+                btn.style.pointerEvents = 'auto';
+            }, 5500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const dashes = document.getElementById('runwayDashes');
+            if(dashes) dashes.classList.add('animating');
+        });
+    </script>
+
+    <!-- Script para el control del Carrusel de Fotos y actualización de indicadores -->
+    <script>
+        const carousel = document.getElementById('carousel');
+        const dots = document.querySelectorAll('.dot');
+
+        function scrollCarousel(direction) {
+            const cardWidth = carousel.firstElementChild.offsetWidth + 16; // ancho + gap
+            carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
+
+        carousel.addEventListener('scroll', () => {
+            const cardWidth = carousel.firstElementChild.offsetWidth + 16;
+            const currentIndex = Math.round(carousel.scrollLeft / cardWidth);
+
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-gray-300', 'w-2.5');
+                    dot.classList.add('bg-[#d63384]', 'w-4');
+                } else {
+                    dot.classList.remove('bg-[#d63384]', 'w-4');
+                    dot.classList.add('bg-gray-300', 'w-2.5');
+                }
+            });
+        });
+    </script>
+
+    <!-- Script para el control del Carrusel de Vídeos y actualización de sus indicadores -->
+    <script>
+        const videoCarousel = document.getElementById('videoCarousel');
+        const videoDots = document.querySelectorAll('.video-dot');
+
+        function scrollVideoCarousel(direction) {
+            const cardWidth = videoCarousel.firstElementChild.offsetWidth + 16; // ancho + gap
+            videoCarousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        }
+
+        videoCarousel.addEventListener('scroll', () => {
+            const cardWidth = videoCarousel.firstElementChild.offsetWidth + 16;
+            const currentIndex = Math.round(videoCarousel.scrollLeft / cardWidth);
+
+            videoDots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-gray-300', 'w-2.5');
+                    dot.classList.add('bg-[#d63384]', 'w-4');
+                } else {
+                    dot.classList.remove('bg-[#d63384]', 'w-4');
+                    dot.classList.add('bg-gray-300', 'w-2.5');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
